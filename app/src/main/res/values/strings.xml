@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AI Chatting App</string>
+
+    <!-- STRINGS -->
+    <string name="welcome_label">Welcome! To begin, please let me know the topic of our conversation:</string>
+    <string name="welcome_button">Start Chatting!</string>
 </resources>

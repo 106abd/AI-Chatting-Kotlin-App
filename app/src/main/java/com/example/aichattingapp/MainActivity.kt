@@ -24,9 +24,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             AIChattingAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Chat(
-                        modifier = Modifier.padding(innerPadding),
-                        viewModel = chatViewModel
+//                    Chat(
+//                        modifier = Modifier.padding(innerPadding),
+//                        viewModel = chatViewModel
+//                    )
+
+                    Welcome(
+                        modifier = Modifier.padding(innerPadding)
                     )
                 }
             }

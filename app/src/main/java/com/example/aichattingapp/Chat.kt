@@ -33,6 +33,7 @@ fun Chat(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
     val chatLog = viewModel.chatLog
     val listState = rememberLazyListState()
 
+    // Automate scroll when new message is added
     LaunchedEffect(chatLog.size) {
         if (chatLog.isNotEmpty()) {
             listState.animateScrollToItem(chatLog.lastIndex)
@@ -44,6 +45,7 @@ fun Chat(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        // Text List Renderer
         LazyColumn(
             state = listState,
             modifier = Modifier.weight(1f).fillMaxWidth().padding(top = 10.dp)
@@ -56,6 +58,7 @@ fun Chat(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
             }
         }
 
+        // Text Input Functionality
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
@@ -70,6 +73,7 @@ fun Chat(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
                     .padding(end = 10.dp)
                 )
 
+            // Send Text Button
             IconButton(
                 onClick = { viewModel.onSendMessage(inputText)},
                 modifier = Modifier.size(55.dp)
@@ -90,6 +94,7 @@ fun Chat(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
 
 }
 
+// Composable for each sent text message
 @Composable
 fun TextLog(modifier: Modifier = Modifier, textMessage: String, index: Int) {
 
