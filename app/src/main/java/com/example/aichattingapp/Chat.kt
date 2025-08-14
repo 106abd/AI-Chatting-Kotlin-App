@@ -4,17 +4,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,34 +27,51 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Chat(modifier: Modifier = Modifier) {
+fun Chat(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
+
+    val inputText by viewModel.textInput
+    val chatLog = viewModel.chatLog
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(chatLog.size) {
+        if (chatLog.isNotEmpty()) {
+            listState.animateScrollToItem(chatLog.lastIndex)
+        }
+    }
 
     Column (
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        TextLog(modifier = modifier)
-
-        // Move chatbox to the bottom
-        Spacer(Modifier.weight(1f))
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.weight(1f).fillMaxWidth().padding(top = 10.dp)
+        ) {
+            itemsIndexed(chatLog) { index: Int, textMessage: String ->
+                TextLog(
+                    textMessage = textMessage,
+                    index = index
+                )
+            }
+        }
 
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 30.dp)
+            modifier = Modifier.padding(bottom = 30.dp, start = 10.dp, end = 10.dp)
         ) {
 
             // Chatbox
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                modifier = Modifier.padding(end = 10.dp)
-
+                value = inputText,
+                onValueChange = {viewModel.onTextChange(it)},
+                modifier = Modifier.weight(1f)
+                    .padding(end = 10.dp)
                 )
 
             IconButton(
-                onClick = {},
+                onClick = { viewModel.onSendMessage(inputText)},
                 modifier = Modifier.size(55.dp)
                     .clip(RoundedCornerShape(5.dp))
                     .background(color = Color.Green)
@@ -70,19 +91,35 @@ fun Chat(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TextLog(modifier: Modifier = Modifier) {
+fun TextLog(modifier: Modifier = Modifier, textMessage: String, index: Int) {
+
+    var startPadding = 10
+    var endPadding = 60
+    var rowGravity = Arrangement.Start
+    var rowColor = Color.DarkGray
+    var textColor = Color.White
+
+    if (index % 2 != 0) {
+        startPadding = 60
+        endPadding = 10
+        rowGravity = Arrangement.End
+        rowColor = Color.Green
+        textColor = Color.Black
+    }
 
     Row(
-        modifier = modifier.padding(horizontal = 10.dp, vertical = 10.dp)
+        modifier = modifier
             .fillMaxWidth()
+            .padding(start = startPadding.dp, end = endPadding.dp, top = 10.dp, bottom = 10.dp),
+        horizontalArrangement = rowGravity
     ) {
         Text(
-            text = "YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
+            text = textMessage,
+            color = textColor,
             modifier = Modifier
                 .clip(RoundedCornerShape(5.dp))
-                .background(Color.DarkGray)
+                .background(rowColor)
                 .padding(10.dp)
-
         )
     }
 }
