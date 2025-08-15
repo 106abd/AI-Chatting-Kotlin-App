@@ -19,19 +19,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
+        val welcomeViewModel = ViewModelProvider(this)[WelcomeViewModel::class.java]
 
         enableEdgeToEdge()
         setContent {
             AIChattingAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Chat(
-//                        modifier = Modifier.padding(innerPadding),
-//                        viewModel = chatViewModel
-//                    )
-
-                    Welcome(
-                        modifier = Modifier.padding(innerPadding)
+                    Chat(
+                        modifier = Modifier.padding(innerPadding),
+                        viewModel = chatViewModel
                     )
+
+//                    Welcome(
+//                        modifier = Modifier.padding(innerPadding),
+//                        viewModel = welcomeViewModel
+//                    )
                 }
             }
         }
