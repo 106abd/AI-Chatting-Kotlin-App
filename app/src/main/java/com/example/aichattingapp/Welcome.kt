@@ -34,7 +34,7 @@ fun Welcome(modifier: Modifier = Modifier, navController: NavController) {
         viewModel.validNavigation.collect { canNavigate ->
 
             if (canNavigate) {
-                navController.navigate(route = Routes.screen_CHAT)
+                navController.navigate(route = Routes.screen_CHAT + "?inputText=${inputText}")
             }
         }
     }

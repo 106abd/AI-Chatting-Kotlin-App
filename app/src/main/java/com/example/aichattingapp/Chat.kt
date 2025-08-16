@@ -1,5 +1,6 @@
 package com.example.aichattingapp
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,7 +31,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 @Composable
-fun Chat(modifier: Modifier = Modifier, navController: NavController) {
+fun Chat(modifier: Modifier = Modifier, inputText: String) {
+
+    Log.i("TAGGERS", inputText)
 
     val viewModel: ChatViewModel = viewModel()
 

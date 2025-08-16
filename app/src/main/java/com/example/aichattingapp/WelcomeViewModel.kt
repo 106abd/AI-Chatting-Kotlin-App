@@ -25,6 +25,7 @@ class WelcomeViewModel : ViewModel() {
 
         val cleanedInput = inputText.trim()
         if (cleanedInput.isNotEmpty()) {
+            _textInput.value = ""
             viewModelScope.launch(Dispatchers.Main) { _validNavigation.emit(true) }
         }
     }

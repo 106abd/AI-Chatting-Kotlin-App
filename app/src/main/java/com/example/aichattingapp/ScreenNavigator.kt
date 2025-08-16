@@ -23,10 +23,12 @@ fun ScreenNavigator(modifier: Modifier = Modifier) {
             )
         }
 
-        composable(route = Routes.screen_CHAT) { backStackEntry ->
+        composable(route = Routes.screen_CHAT + "?inputText={inputText}") { backStackEntry ->
+            val inputText = backStackEntry.arguments?.getString("inputText")
+
             Chat(
                 modifier = modifier,
-                navController = navController
+                inputText = inputText?: ""
             )
         }
 
