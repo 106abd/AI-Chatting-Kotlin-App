@@ -26,9 +26,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 
 @Composable
-fun Chat(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
+fun Chat(modifier: Modifier = Modifier, navController: NavController) {
+
+    val viewModel: ChatViewModel = viewModel()
 
     val inputText by viewModel.textInput
     val chatLog = viewModel.chatLog
